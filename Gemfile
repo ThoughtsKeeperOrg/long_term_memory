@@ -68,4 +68,5 @@ end
 gem 'awesome_print'
 gem 'factory_bot_rails'
 gem 'karafka'
+gem 'pg'
 gem 'rack-cors'

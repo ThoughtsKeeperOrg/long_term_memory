@@ -50,6 +50,6 @@ class Api::ThoughtsController < Api::BaseController
   def thought_params
     params
       .require(:thought)
-      .permit(:content, :convert_to_text, :file_name, :file_base64)
+      .permit(:content)
   end
 end
