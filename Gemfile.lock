@@ -169,6 +169,9 @@ GEM
       ffi (~> 1.15)
       mini_portile2 (~> 2.6)
       rake (> 12)
+    karafka-testing (2.4.6)
+      karafka (>= 2.4.0, < 2.5.0)
+      waterdrop (>= 2.7.0)
     language_server-protocol (3.17.0.3)
     logger (1.6.3)
     loofah (2.23.1)
@@ -428,6 +431,7 @@ DEPENDENCIES
   jbuilder
   kamal
   karafka
+  karafka-testing
   pg
   propshaft
   puma (>= 5.0)

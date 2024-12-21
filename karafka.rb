@@ -67,6 +67,10 @@ class KarafkaApp < Karafka::App
       # config(partitions: 2, 'cleanup.policy': 'compact')
       consumer ExampleConsumer
     end
+
+    topic :ocr do
+      consumer OcrConsumer
+    end
   end
 end
 

@@ -19,7 +19,17 @@ class Api::ThoughtsController < Api::BaseController
           decode_base64_content = Base64.decode64(params[:file][:file_base64])
           file.write(decode_base64_content)
           file.rewind
-          image.file.attach(io: file, filename: params[:file][:filename], content_type: params[:file][:type])
+          image.file.attach(io: file, 
+                            filename: params[:file][:filename], 
+                            content_type: params[:file][:type])
+
+          if ActiveModel::Type::Boolean.new.cast(params[:file][:convert_to_text])
+            Karafka.producer
+                   .produce_sync(topic: 'text_image.created', 
+                                 key: image.id.to_s,
+                                 payload: { file_path: image.path, 
+                                            filename: params[:file][:filename]}.to_json)
+          end
         ensure
            file.close
            file.unlink
