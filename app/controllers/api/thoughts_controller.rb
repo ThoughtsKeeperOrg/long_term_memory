@@ -16,10 +16,10 @@ class Api::ThoughtsController < Api::BaseController
         image = Image.create(thought: @thought)
         file = Tempfile.new(params[:file][:filename], binmode: true)
         begin
-          decode_base64_content = Base64.decode64(params[:file][:file_base64]) 
+          decode_base64_content = Base64.decode64(params[:file][:file_base64])
           file.write(decode_base64_content)
           file.rewind
-          image.file.attach(io: file, filename: params[:file][:filename], content_type:params[:file][:type])
+          image.file.attach(io: file, filename: params[:file][:filename], content_type: params[:file][:type])
         ensure
            file.close
            file.unlink
@@ -43,7 +43,7 @@ class Api::ThoughtsController < Api::BaseController
 
   def destroy
     Thought.find(params[:id]).destroy
-    
+
     head 200
   end
 
