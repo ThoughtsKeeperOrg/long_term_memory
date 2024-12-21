@@ -6,38 +6,9 @@ class Api::ThoughtsController < Api::BaseController
   end
 
   def create
-    # TODO: extract to service object, wrap in transaction
-    @thought = Thought.create(thought_params)
+    result = Thoughts::Services::Create.new({ thought: thought_params, file: params[:file] }).call
 
-    if @thought.errors.any?
-      render json: @thought.errors.full_messages, status: 400
-    else
-      if params[:file]
-        image = Image.create(thought: @thought)
-        file = Tempfile.new(params[:file][:filename], binmode: true)
-        begin
-          decode_base64_content = Base64.decode64(params[:file][:file_base64])
-          file.write(decode_base64_content)
-          file.rewind
-          image.file.attach(io: file, 
-                            filename: params[:file][:filename], 
-                            content_type: params[:file][:type])
-
-          if ActiveModel::Type::Boolean.new.cast(params[:file][:convert_to_text])
-            Karafka.producer
-                   .produce_sync(topic: 'text_image.created', 
-                                 key: image.id.to_s,
-                                 payload: { file_path: image.path, 
-                                            filename: params[:file][:filename]}.to_json)
-          end
-        ensure
-           file.close
-           file.unlink
-        end
-      end
-
-      render json: @thought, status: 201
-    end
+    render json: result, status: result[:errors].present? ? 400 : 201
   end
 
   def update

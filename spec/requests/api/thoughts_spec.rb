@@ -12,7 +12,7 @@ RSpec.describe "Api::Thoughts", type: :request do
     it { expect(response.body).to eq thoughts.to_json }
   end
 
-  describe 'GET /create' do
+  describe 'POST /create' do
     let(:content) { 'some text' }
     let(:file) { nil }
     let(:entity_params) { { thought: { content: content }, file: file } }
@@ -27,8 +27,14 @@ RSpec.describe "Api::Thoughts", type: :request do
 
       it 'returns created object' do
         subject
-        expect(parsed_body['id']).to be_a Integer
-        expect(parsed_body['content']).to eq content
+        expect(parsed_body['entity']['id']).to be_a Integer
+        expect(parsed_body['entity']['content']).to eq content
+      end
+
+      it 'calls service object' do
+        expect_any_instance_of(Thoughts::Services::Create).to receive(:call).and_call_original
+
+        subject
       end
 
       it { expect { subject }.to change { Thought.count }.by(1) }
@@ -50,43 +56,26 @@ RSpec.describe "Api::Thoughts", type: :request do
             convert_to_text: convert_to_text
           }
         end
-        let(:created_thought) { Thought.find(parsed_body['id']) }
 
         it_behaves_like 'entity is created'
+      end
+    end
 
-        it { expect { subject }.to change { Image.count }.by(1) }
+    context 'when creation failed' do
+      let(:errors) { [ "error description 1", "error description 2" ] }
 
-        it 'stores file' do
-          expect(Base64).to receive(:decode64).with(file_base64).and_call_original
+      before do
+        allow_any_instance_of(Thoughts::Services::Create).to receive(:call).and_return({ errors: errors })
+      end
 
-          subject
+      it 'responds with 400 status' do
+        subject
+        expect(response.status).to eq 400
+      end
 
-          expect(created_thought.image.file.filename).to eq filename
-        end
-
-        it 'does not publish event to kafka' do
-          expect(Karafka).not_to receive(:producer)
-
-          subject
-        end
-
-        it { expect { subject }.not_to change { karafka.produced_messages.size } }
-
-        context 'when convert_to_text is true' do
-          let(:convert_to_text) { true }
-          let(:event_payload) do
-            { file_path: created_thought.image.path, filename: created_thought.image.file.filename }.to_json
-          end
-
-          it { expect { subject }.to change { karafka.produced_messages.size }.by(1) }
-
-          it 'publishes event to kafka' do
-            subject
-            expect(karafka.produced_messages.first[:key]).to eq(created_thought.image.id.to_s)
-            expect(karafka.produced_messages.first[:topic]).to eq('text_image.created')
-            expect(karafka.produced_messages.first[:payload]).to eq(event_payload)
-          end
-        end
+      it 'returns errors' do
+        subject
+        expect(parsed_body['errors']).to eq errors
       end
     end
   end
