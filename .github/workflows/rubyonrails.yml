@@ -51,7 +51,7 @@ jobs:
           bundler-cache: true
           ruby-version: '3.3.6'
       - name: Generate binstubs
-        run: bundle binstubs bundler-audit brakeman rubocop
+        run: bundle binstubs bundler-audit brakeman rubocop --force
       # Add or replace any other lints here
       - name: Security audit dependencies
         run: bin/bundler-audit --update
