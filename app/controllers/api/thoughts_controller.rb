@@ -33,4 +33,10 @@ class Api::ThoughtsController < Api::BaseController
       .require(:thought)
       .permit(:content)
   end
+
+  def file_params
+    params
+      .permit(:file)
+      .permit(:type, :filename, :file_base64, :convert_to_text)
+  end
 end
