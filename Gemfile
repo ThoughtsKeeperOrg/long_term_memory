@@ -47,12 +47,12 @@ group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
-  gem 'bundler-audit'
+  gem "bundler-audit"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
-  gem 'rspec-rails', '~> 7.0.0'
+  gem "rspec-rails", "~> 7.0.0"
 end
 
 group :development do
@@ -64,13 +64,13 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  gem 'karafka-testing'
+  gem "karafka-testing"
 end
 
 
-gem 'awesome_print'
-gem 'factory_bot_rails'
-gem 'ffaker'
-gem 'karafka'
-gem 'pg'
-gem 'rack-cors'
+gem "awesome_print"
+gem "factory_bot_rails"
+gem "ffaker"
+gem "karafka"
+gem "pg"
+gem "rack-cors"
