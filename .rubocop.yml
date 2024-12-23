@@ -7,10 +7,10 @@
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
 
-AllCops:
-  Exclude:
-    - db/**/*
-    - bin/*
+# AllCops:
+#   Exclude:
+#     - db/**/*
+#     - bin/*
 
 # Metrics/BlockLength:
 #   Exclude:
@@ -18,11 +18,11 @@ AllCops:
 #     - !ruby/regexp /routes.rb$/
 #     - spec/**/*
 
-Style/Documentation:
-  Enabled: false
+# Style/Documentation:
+#   Enabled: false
 
-Metrics/MethodLength:
-  Max: 25
+# Metrics/MethodLength:
+#   Max: 25
 
-Metrics/AbcSize:
-  Max: 20
+# Metrics/AbcSize:
+#   Max: 20
