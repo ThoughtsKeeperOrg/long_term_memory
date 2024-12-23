@@ -6,7 +6,7 @@ class Api::ThoughtsController < Api::BaseController
   end
 
   def create
-    result = Thoughts::Services::Create.new({ thought: thought_params, file: params[:file] }).call
+    result = Thoughts::Services::Create.new(thought_params).call
 
     render json: result, status: result[:errors].present? ? 400 : 201
   end
@@ -29,8 +29,7 @@ class Api::ThoughtsController < Api::BaseController
   end
 
   def thought_params
-    params
-      .require(:thought)
-      .permit(:content)
+    params.permit(thought: [ :content ],
+                  file: [ :filename, :type, :convert_to_text, :file_base64 ])
   end
 end
