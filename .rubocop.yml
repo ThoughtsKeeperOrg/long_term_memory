@@ -13,14 +13,10 @@ AllCops:
     - bin/*
 
 Metrics/BlockLength:
-  ExcludedMethods: [
-    'describe', 'context', 'feature', 'it', 'FactoryBot.define', 'factory', 'let', 'before', 'after',
-    'RSpec.configure', 'Rpush.configure', 'Rpush.reflect', 'shared_examples', 'resource',
-    'post', 'aggregate_failures', 'xdescribe', 'draw', 'task', 'scenario', 'get', 'put'
-  ]
   Exclude:
     - !ruby/regexp /\.gemspec$/
     - !ruby/regexp /routes.rb$/
+    - spec/**/*
 
 Style/Documentation:
   Enabled: false
