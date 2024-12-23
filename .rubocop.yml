@@ -12,11 +12,11 @@ AllCops:
     - db/**/*
     - bin/*
 
-Metrics/BlockLength:
-  Exclude:
-    - !ruby/regexp /\.gemspec$/
-    - !ruby/regexp /routes.rb$/
-    - spec/**/*
+# Metrics/BlockLength:
+#   Exclude:
+#     - !ruby/regexp /\.gemspec$/
+#     - !ruby/regexp /routes.rb$/
+#     - spec/**/*
 
 Style/Documentation:
   Enabled: false
