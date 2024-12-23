@@ -4,14 +4,14 @@
 class OcrConsumer < ApplicationConsumer
   def consume
     messages.each do |message|
-      puts message.payload
+      Rails.logger.debug message.payload
       # Thought.create(content: message.payload.to_json)
     rescue StandardError => e
-      p '*' * 88
-      p 'kafka message consuption error!!!'
-      p e.message
-      p e.backtrace.join("\n")
-      p '*' * 88
+      Rails.logger.debug '*' * 88
+      # Rails.logger.debug 'kafka message consuption error!!!'
+      Rails.logger.debug e.message
+      Rails.logger.debug e.backtrace.join("\n")
+      Rails.logger.debug '*' * 88
     end
   end
 end

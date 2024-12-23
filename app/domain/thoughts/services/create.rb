@@ -13,7 +13,7 @@ module Thoughts
         ActiveRecord::Base.transaction do
           create_entity
 
-          unless result[:errors].present?
+          if result[:errors].blank?
             save_image if params[:file]
             result[:entity] = entity
           end
@@ -37,7 +37,7 @@ module Thoughts
       def save_image
         image_result = Images::Services::Create.new({ thought: entity, file: params[:file] }).call
 
-        return unless image_result[:errors].present?
+        return if image_result[:errors].blank?
 
         result[:errors] += image_result[:errors]
 

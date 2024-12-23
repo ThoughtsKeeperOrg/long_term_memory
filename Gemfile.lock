@@ -442,6 +442,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 8.0.0)
   rspec-rails (~> 7.1.0)
+  rubocop
   rubocop-rails-omakase
   selenium-webdriver
   solid_cable

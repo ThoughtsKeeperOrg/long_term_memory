@@ -52,6 +52,7 @@ group :development, :test do
   gem 'bundler-audit'
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+  gem 'rubocop', require: false
   gem 'rubocop-rails-omakase', require: false
 
   gem 'rspec-rails', '~> 7.1.0'
