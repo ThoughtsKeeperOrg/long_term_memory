@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "Api::Thoughts", type: :request do
+RSpec.describe 'Api::Thoughts', type: :request do
   let(:parsed_body) { JSON.parse(response.body) }
 
   describe 'GET /index' do
@@ -62,7 +64,7 @@ RSpec.describe "Api::Thoughts", type: :request do
     end
 
     context 'when creation failed' do
-      let(:errors) { [ "error description 1", "error description 2" ] }
+      let(:errors) { ['error description 1', 'error description 2'] }
 
       before do
         allow_any_instance_of(Thoughts::Services::Create).to receive(:call).and_return({ errors: errors })

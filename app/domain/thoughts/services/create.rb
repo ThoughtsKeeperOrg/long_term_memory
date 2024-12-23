@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Thoughts
   module Services
     class Create
@@ -9,15 +11,10 @@ module Thoughts
 
       def call
         ActiveRecord::Base.transaction do
-          @entity = Thought.create(params[:thought])
+          create_entity
 
-          if entity.errors.any?
-            result[:errors] = entity.errors.full_messages
-          else
-            if params[:file]
-              save_image
-              raise ActiveRecord::Rollback if result[:errors].present?
-            end
+          unless result[:errors].present?
+            save_image if params[:file]
             result[:entity] = entity
           end
         end
@@ -31,12 +28,20 @@ module Thoughts
         @result ||= { errors: [], entity: nil }
       end
 
+      def create_entity
+        @entity = Thought.create(params[:thought])
+
+        result[:errors] = entity.errors.full_messages if entity.errors.any?
+      end
+
       def save_image
         image_result = Images::Services::Create.new({ thought: entity, file: params[:file] }).call
 
-        if image_result[:errors].present?
-          result[:errors] += image_result[:errors]
-        end
+        return unless image_result[:errors].present?
+
+        result[:errors] += image_result[:errors]
+
+        raise ActiveRecord::Rollback if result[:errors].present?
       end
     end
   end

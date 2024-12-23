@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Images::Services::Create, type: :service_object do
@@ -37,7 +39,7 @@ RSpec.describe Images::Services::Create, type: :service_object do
 
       it 'does not publish event to kafka' do
         expect(Karafka).not_to receive(:producer)
-        expect { subject }.not_to change { karafka.produced_messages.size }
+        expect { subject }.not_to(change { karafka.produced_messages.size })
       end
 
       context 'when convert_to_text is true' do

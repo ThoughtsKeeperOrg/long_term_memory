@@ -1,8 +1,32 @@
 # Omakase Ruby styling for Rails
-inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+# inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
 # Overwrite or add rules to create your own house style
 #
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
+
+AllCops:
+  Exclude:
+    - db/**/*
+    - bin/*
+
+Metrics/BlockLength:
+  ExcludedMethods: [
+    'describe', 'context', 'feature', 'it', 'FactoryBot.define', 'factory', 'let', 'before', 'after',
+    'RSpec.configure', 'Rpush.configure', 'Rpush.reflect', 'shared_examples', 'resource',
+    'post', 'aggregate_failures', 'xdescribe', 'draw', 'task', 'scenario', 'get', 'put'
+  ]
+  Exclude:
+    - !ruby/regexp /\.gemspec$/
+    - !ruby/regexp /routes.rb$/
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 25
+
+Metrics/AbcSize:
+  Max: 20
