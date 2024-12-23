@@ -58,6 +58,7 @@ module Images
       end
 
       def publish_image_event
+        # TODO: run in background
         Karafka.producer
                .produce_sync(key: entity.id.to_s,
                              topic: 'text_image.created',
