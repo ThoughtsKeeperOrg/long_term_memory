@@ -7,10 +7,10 @@
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
 
-# AllCops:
-#   Exclude:
-#     - db/**/*
-#     - bin/*
+AllCops:
+  Exclude:
+    - db/**/*
+    - bin/*
 
 # Metrics/BlockLength:
 #   Exclude:
