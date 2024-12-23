@@ -16,17 +16,17 @@ AllCops:
     - db/**/*
     - bin/*
 
-# Metrics/BlockLength:
-#   Exclude:
-#     - !ruby/regexp /\.gemspec$/
-#     - !ruby/regexp /routes.rb$/
-#     - spec/**/*
+Metrics/BlockLength:
+  Exclude:
+    - !ruby/regexp /\.gemspec$/
+    - !ruby/regexp /routes.rb$/
+    - spec/**/*
 
-# Style/Documentation:
-#   Enabled: false
+Style/Documentation:
+  Enabled: false
 
-# Metrics/MethodLength:
-#   Max: 25
+Metrics/MethodLength:
+  Max: 25
 
-# Metrics/AbcSize:
-#   Max: 20
+Metrics/AbcSize:
+  Max: 20
