@@ -16,14 +16,15 @@ module Images
           return result
         end
 
-        file = Tempfile.new(params[:file][:filename], binmode: true)
+        filename = ActiveStorage::Filename.new(params[:file][:filename]).sanitized
+        file = Tempfile.new(filename, binmode: true)
         begin
           decode_base64_content = Base64.decode64(params[:file][:file_base64])
           file.write(decode_base64_content)
           file.rewind
           entity.file.attach(io: File.open(file.path),
-                             filename: params[:file][:filename],
-                             content_type: params[:file][:type])
+                             content_type: params[:file][:type],
+                             filename: filename)
 
           publish_image_event if file_ocr_required?
           result[:entity] = entity
