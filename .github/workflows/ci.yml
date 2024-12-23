@@ -52,7 +52,7 @@ jobs:
       - name: Lint Ruby files
         run: bin/rubocop --parallel
 
-  scan_ruby:
+  brakeman:
     runs-on: ubuntu-latest
 
     steps:
