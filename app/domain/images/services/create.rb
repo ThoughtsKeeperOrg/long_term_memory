@@ -61,7 +61,7 @@ module Images
         # TODO: run in background
         Karafka.producer
                .produce_sync(key: entity.id.to_s,
-                             topic: 'text_image.created',
+                             topic: :textimage_created,
                              payload: { file_path: entity.path,
                                         filename: params[:file][:filename] }.to_json)
       end

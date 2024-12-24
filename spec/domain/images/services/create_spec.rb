@@ -50,7 +50,7 @@ RSpec.describe Images::Services::Create, type: :service_object do
         it 'publishes event to kafka' do
           event_payload = { file_path: subject[:entity].path, filename: subject[:entity].file.filename }.to_json
           expect(karafka.produced_messages.first[:key]).to eq(subject[:entity].id.to_s)
-          expect(karafka.produced_messages.first[:topic]).to eq('text_image.created')
+          expect(karafka.produced_messages.first[:topic]).to eq('textimage_created')
           expect(karafka.produced_messages.first[:payload]).to eq(event_payload)
         end
       end
