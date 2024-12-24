@@ -4,22 +4,17 @@
 class OcrConsumer < ApplicationConsumer
   def consume
     messages.each do |message|
-      Rails.logger.debug message.payload
+      # Rails.logger.debug message.payload
       p message
 
-      image = Image.find(message.key)
+      # if message.payload['status'] == 'scanned'
 
-      if message.payload['status'] == 'scanned'
-        p 's'*88
-
-        thought = image.thought
-        thought.content += message.payload['text']
-        thought.save
-      else
-        p 'e'*88
-
-        # TODO
-      end
+      thought = Image.find(message.key).thought
+      thought.content += message.payload['text']
+      thought.save
+      # else
+      #   # TODO
+      # end
       # Thought.create(content: message.payload.to_json)
     rescue StandardError => e
       p '*' * 88

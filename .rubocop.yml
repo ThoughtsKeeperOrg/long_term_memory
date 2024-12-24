@@ -25,6 +25,9 @@ Metrics/BlockLength:
     - !ruby/regexp /routes.rb$/
     - spec/**/*
 
+Rails/Output:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
