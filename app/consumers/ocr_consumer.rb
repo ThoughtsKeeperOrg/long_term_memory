@@ -6,13 +6,27 @@ class OcrConsumer < ApplicationConsumer
     messages.each do |message|
       Rails.logger.debug message.payload
       p message
+
+      image = Image.find(message.key)
+
+      if message.payload['status'] == 'scanned'
+        p 's'*88
+
+        thought = image.thought
+        thought.content += message.payload['text']
+        thought.save
+      else
+        p 'e'*88
+
+        # TODO
+      end
       # Thought.create(content: message.payload.to_json)
     rescue StandardError => e
-      Rails.logger.debug '*' * 88
-      # Rails.logger.debug 'kafka message consuption error!!!'
-      Rails.logger.debug e.message
-      Rails.logger.debug e.backtrace.join("\n")
-      Rails.logger.debug '*' * 88
+      p '*' * 88
+      # p 'kafka message consuption error!!!'
+      p e.message
+      p e.backtrace.join("\n")
+      p '*' * 88
     end
   end
 end
