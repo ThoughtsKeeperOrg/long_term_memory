@@ -5,6 +5,7 @@ class OcrConsumer < ApplicationConsumer
   def consume
     messages.each do |message|
       Rails.logger.debug message.payload
+      p message
       # Thought.create(content: message.payload.to_json)
     rescue StandardError => e
       Rails.logger.debug '*' * 88
