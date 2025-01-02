@@ -7,7 +7,7 @@ module Thoughts
         @params = params
       end
 
-      attr_accessor :params, :entity
+      attr_accessor :params
 
       def call
         driver.session do |session|
