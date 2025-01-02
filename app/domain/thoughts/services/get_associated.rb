@@ -12,6 +12,7 @@ module Thoughts
       def call
         driver.session do |session|
           query_result = session.run("MATCH (a:Thought { entity_id: $entity_id })-[similarity:similarity]-(node)
+                                WHERE similarity.estimation > 0.0
                                 RETURN node.entity_id as id, similarity.estimation as similarity
                                 ORDER BY similarity.estimation DESC", entity_id: params[:entity_id].to_s)
 
