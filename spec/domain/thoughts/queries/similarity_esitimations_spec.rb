@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Thoughts::Queries::SimilarityEsitimations, type: :query_object do
+RSpec.describe Thoughts::Queries::SimilarityEsitimations, type: :query_object, neo4j: true do
   describe '#call' do
     let(:thought) { FactoryBot.create(:thought) }
 

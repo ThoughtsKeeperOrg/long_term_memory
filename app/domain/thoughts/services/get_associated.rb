@@ -3,23 +3,17 @@
 module Thoughts
   module Services
     class GetAssociated
-      def initialize(params)
-        @params = params
-      end
-
       attr_accessor :params
 
-      def call
-        # driver.session do |session|
-        #   query_result = session.run("MATCH (a:Thought { entity_id: $entity_id })-[similarity:similarity]-(node)
-        #                         WHERE similarity.estimation > 0.0
-        #                         RETURN node.entity_id as id, similarity.estimation as similarity
-        #                         ORDER BY similarity.estimation DESC", entity_id: params[:entity_id].to_s)
+      def call(entity_id)
+        ids = similarity_esitimations(entity_id).map { |item| item[:id] }
 
-        #   result[:items] = query_result.map(&:to_h)
-        # end
+        return result unless ids.any?
 
-        # result
+        result[:items] = Thought.where(id: ids)
+                                .all
+
+        result
       end
 
       private
@@ -28,8 +22,8 @@ module Thoughts
         @result ||= { errors: [], items: [] }
       end
 
-      def similarity_esitimations
-        @similarity_esitimations ||= Thoughts::Services::GetAssociated.new.call(8)
+      def similarity_esitimations(entity_id)
+        @similarity_esitimations ||= Thoughts::Queries::SimilarityEsitimations.new.call(entity_id)
       end
     end
   end
