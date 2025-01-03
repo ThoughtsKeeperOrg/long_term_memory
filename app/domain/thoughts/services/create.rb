@@ -14,7 +14,11 @@ module Thoughts
           create_entity
 
           if result[:errors].blank?
-            save_image if params[:file]
+            if params[:file]
+              save_image
+            else
+
+            end
             result[:entity] = entity
           end
         end
@@ -42,6 +46,16 @@ module Thoughts
         result[:errors] += image_result[:errors]
 
         raise ActiveRecord::Rollback if result[:errors].present?
+      end
+
+      def publish_update_event
+        Karafka.producer
+               .produce_sync(key: entity.id.to_s,
+                             topic: :entities_updates,
+                             payload: { entitity_type: :thought,
+                                        entity: entity,
+                                        status: :updated,
+                                        user_id: 'placeholder-user_id' }.to_json)
       end
     end
   end
