@@ -10,9 +10,7 @@ module Thoughts
 
         return result unless ids.any?
 
-        result[:items] = Thought.where(id: ids)
-                                .all
-
+        result[:items] = Thought.where(id: ids).all
         result
       end
 

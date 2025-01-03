@@ -3,12 +3,6 @@
 module Thoughts
   module Queries
     class SimilarityEsitimations
-      # def initialize
-      #   @params = params
-      # end
-
-      # attr_accessor :params
-
       def call(entity_id)
         items = []
         db_client.session do |session|
