@@ -8,6 +8,10 @@ module Api
       render json: @items
     end
 
+    def show
+      render json: Thought.find(params[:id])
+    end
+
     def create
       result = Thoughts::Services::Create.new(thought_params).call
 

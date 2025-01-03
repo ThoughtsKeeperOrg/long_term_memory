@@ -2,8 +2,8 @@
 
 module Api
   class AssociationsController < Api::BaseController
-    def index
-      render json: Thoughts::Services::GetAssociated.new.call(params[:thought_id])[:items]
+    def show
+      render json: Thoughts::Services::GetAssociated.new.call(params[:id])[:items]
     end
   end
 end

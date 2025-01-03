@@ -16,7 +16,7 @@ RSpec.describe 'Api::Thoughts::Associations', type: :request do
         .and_return(service_result)
     end
 
-    subject! { get("/api/thoughts/#{thought.id}/associations") }
+    subject! { get("/api/associations/#{thought.id}") }
 
     it { expect(response.status).to eq 200 }
     it { expect(response.body).to eq associated_thoughts.to_json }
