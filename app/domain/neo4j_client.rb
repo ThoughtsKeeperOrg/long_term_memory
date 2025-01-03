@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Neo4jClient
   def initialize
     url = URI::Generic.build(scheme: 'neo4j',

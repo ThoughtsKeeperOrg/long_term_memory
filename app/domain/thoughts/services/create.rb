@@ -17,7 +17,7 @@ module Thoughts
             if params[:file]
               save_image
             else
-
+              publish_update_event
             end
             result[:entity] = entity
           end
