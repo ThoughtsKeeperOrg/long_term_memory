@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   namespace :api do
-    resources :thoughts
-    resources :associations, only: [:show]
+    resources :thoughts do
+      resources :associations, only: [:index]
+    end
   end
 end
