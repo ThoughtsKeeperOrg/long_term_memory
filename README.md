@@ -4,6 +4,14 @@ App serves as backend layer which handles request from UI, stores received data 
 
 Postgresql, Neo4j databases are used.
 
+### Project structure
+
+`app/consumers` - kafka consumers can be found here
+
+`app/controllers/api` - conrollers for api endpoints
+
+`app/domain` - service and query objects wrapped into module named by main processing entity 
+
 ### Configuration
 
 ENV
