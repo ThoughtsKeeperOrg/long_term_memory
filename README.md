@@ -1,4 +1,4 @@
-# README
+# Long term memory (ltm)
 
 App serves as backend layer which handles request from UI, stores received data and files, coordinates work of other backend services by communication via kafka messages. 
 
