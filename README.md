@@ -10,7 +10,6 @@ ENV
 
 ```
 SECRET_KEY_BASE = long_string
-PORT = 3009
 DB_HOST = db
 DB_PORT = 5432
 DB_NAME = ltm
