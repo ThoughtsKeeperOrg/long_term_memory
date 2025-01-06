@@ -73,6 +73,7 @@ end
 gem 'awesome_print'
 gem 'factory_bot_rails'
 gem 'ffaker'
+gem 'graphql'
 gem 'karafka'
 gem 'neo4j-ruby-driver'
 gem 'pg'
