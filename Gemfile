@@ -74,6 +74,7 @@ gem 'awesome_print'
 gem 'factory_bot_rails'
 gem 'ffaker'
 gem 'graphql'
+gem 'graphiql-rails', group: :development
 gem 'karafka'
 gem 'neo4j-ruby-driver'
 gem 'pg'
