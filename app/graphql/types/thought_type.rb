@@ -6,6 +6,5 @@ module Types
     field :content, String
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :content, String
   end
 end
