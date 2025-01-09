@@ -29,10 +29,9 @@ RSpec.describe LongTermMemorySchema, type: :graphql_schema do
     let(:query_string) do
       "{
         associations(id: \"#{thought.id}\") {
-          thoughts {
+          
             id
             content
-          }
         }
       }"
     end
@@ -46,7 +45,7 @@ RSpec.describe LongTermMemorySchema, type: :graphql_schema do
 
     context 'thought has no associations' do
       it 'returns no data at all' do
-        expect(result['data']['associations']['thoughts']).to eq []
+        expect(result['data']['associations']).to eq []
       end
     end
 
@@ -54,7 +53,7 @@ RSpec.describe LongTermMemorySchema, type: :graphql_schema do
       let!(:associated_thoughts) { FactoryBot.create_list(:thought, 2) }
 
       it 'returns associated thoughts' do
-        expect(result['data']['associations']['thoughts'].count).to eq 2
+        expect(result['data']['associations'].count).to eq 2
       end
     end
   end
