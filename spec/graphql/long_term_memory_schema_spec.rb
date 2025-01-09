@@ -57,4 +57,23 @@ RSpec.describe LongTermMemorySchema, type: :graphql_schema do
       end
     end
   end
+
+  describe 'Thought create mutation query' do
+    let(:query_string) do
+      "mutation createThought{
+        createThought(input: {content: \"test\"}){
+            entity{
+              id
+              content
+            }
+          }
+        }
+      }"
+    end
+
+    it 'returns thought object' do
+      expect(result['data']['createThought']['entity']['id']).to be_present
+      expect(result['data']['createThought']['entity']['content']).to eq('test')
+    end
+  end
 end
