@@ -29,5 +29,6 @@ module Types
     end
 
     field :thought, resolver: Resolvers::ThoughtResolver
+    field :associations, resolver: Resolvers::AssociationsResolver
   end
 end
