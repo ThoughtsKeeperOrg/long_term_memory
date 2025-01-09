@@ -44,7 +44,7 @@ RSpec.describe LongTermMemorySchema, type: :graphql_schema do
     end
 
     context 'thought has no associations' do
-      it 'returns no data at all' do
+      it 'returns empty array' do
         expect(result['data']['associations']).to eq []
       end
     end
