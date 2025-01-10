@@ -10,22 +10,12 @@ module Images
       attr_accessor :params, :entity
 
       def call
-        create_entity
+        ActiveRecord::Base.transaction do
+          create_entity
 
-        return result if result[:errors].present?
+          return result if result[:errors].present?
 
-        file = Tempfile.new(filename, binmode: true)
-        begin
-          file.write(decoded_base64_content)
-          file.rewind
-          attach_file_to_entity(file)
-
-          publish_image_event if file_ocr_required?
-
-          result[:entity] = entity
-        ensure
-          file.close
-          file.unlink
+          process_file
         end
 
         result
@@ -55,6 +45,26 @@ module Images
 
       def decoded_base64_content
         Base64.decode64(params[:file][:file_base64])
+      end
+
+      def process_file
+        file = Tempfile.new(filename, binmode: true)
+        begin
+          file.write(decoded_base64_content)
+          file.rewind
+          attach_file_to_entity(file)
+
+          publish_image_event if file_ocr_required?
+
+          result[:entity] = entity
+        rescue StandardError => e
+          result[:errors].push(e.message)
+
+          raise ActiveRecord::Rollback
+        ensure
+          file.close
+          file.unlink
+        end
       end
 
       def publish_image_event

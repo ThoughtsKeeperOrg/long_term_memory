@@ -18,7 +18,19 @@ RSpec.describe Images::Services::Create, type: :service_object do
       }
     end
 
-    subject { described_class.new({ thought: thought, file: file_params }).call }
+    subject(:result) { described_class.new({ thought: thought, file: file_params }).call }
+
+    shared_examples 'processing is failed' do
+      it { expect { subject }.not_to(change { Image.count }) }
+      it { expect(result[:errors]).to eq errors }
+      it { expect(result[:entity]).to eq nil }
+      it 'does not publish kafka event' do
+        expect_any_instance_of(WaterDrop::Producer).not_to receive(:produce_sync)
+      end
+      it 'does not create image' do
+        expect_any_instance_of(Images::Services::Create).not_to receive(:call)
+      end
+    end
 
     context 'when entity is created' do
       it { expect { subject }.to change { Image.count }.by(1) }
@@ -57,7 +69,27 @@ RSpec.describe Images::Services::Create, type: :service_object do
     end
 
     context 'when entity is not created' do
-      # TODO
+      let(:errors) { ['maybe some validation can fail'] }
+      let(:created_image_mock) { FactoryBot.create(:image) }
+
+      before do
+        allow(Image).to receive(:create).and_return(created_image_mock)
+        allow(created_image_mock).to receive_message_chain(:errors, :any?).and_return(true)
+        allow(created_image_mock).to receive_message_chain(:errors, :full_messages).and_return(errors)
+      end
+
+      it_behaves_like 'processing is failed'
+    end
+
+    context 'when file processing fails' do
+      let(:error) { 'Dramatic error description' }
+      let(:errors) { [error] }
+
+      before do
+        allow_any_instance_of(Tempfile).to receive(:write).and_raise(error)
+      end
+
+      it_behaves_like 'processing is failed'
     end
   end
 end
