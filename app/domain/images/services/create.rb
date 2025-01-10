@@ -33,20 +33,6 @@ module Images
         result[:errors] = entity.errors.full_messages if entity.errors.any?
       end
 
-      def filename
-        @filename ||= ActiveStorage::Filename.new(params[:file][:filename]).sanitized
-      end
-
-      def attach_file_to_entity(file)
-        entity.file.attach(io: File.open(file.path),
-                           content_type: params[:file][:type],
-                           filename: filename)
-      end
-
-      def decoded_base64_content
-        Base64.decode64(params[:file][:file_base64])
-      end
-
       def process_file
         file = Tempfile.new(filename, binmode: true)
         begin
@@ -65,6 +51,20 @@ module Images
           file.close
           file.unlink
         end
+      end
+
+      def filename
+        @filename ||= ActiveStorage::Filename.new(params[:file][:filename]).sanitized
+      end
+
+      def attach_file_to_entity(file)
+        entity.file.attach(io: File.open(file.path),
+                           content_type: params[:file][:type],
+                           filename: filename)
+      end
+
+      def decoded_base64_content
+        Base64.decode64(params[:file][:file_base64])
       end
 
       def publish_image_event
