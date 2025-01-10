@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Resolvers
   class ThoughtResolver < BaseResolver
     type Types::ThoughtType, null: false
