@@ -29,7 +29,7 @@ RSpec.describe LongTermMemorySchema, type: :graphql_schema do
     let(:query_string) do
       "{
         associations(id: \"#{thought.id}\") {
-          
+
             id
             content
         }
@@ -74,6 +74,47 @@ RSpec.describe LongTermMemorySchema, type: :graphql_schema do
     it 'returns thought object' do
       expect(result['data']['createThought']['entity']['id']).to be_present
       expect(result['data']['createThought']['entity']['content']).to eq('test')
+    end
+
+    context 'file parameter is set' do
+      let(:content) { 'test' }
+      let(:filename) { 'img.jpg' }
+      let(:type) { 'image/jpeg' }
+      let(:convert_to_text) { true }
+      let(:file_base64) { 'file_base64_str' }
+      let(:params) do
+        {
+          thought: { content: content },
+          file: {
+            type: type,
+            filename: filename,
+            file_base64: file_base64,
+            convert_to_text: convert_to_text
+          }
+        }
+      end
+
+      let(:query_string) do
+        "mutation createThought{
+          createThought( input: { content: \"#{content}\",
+                                  file: { filename: \"#{filename}\",
+                                  type: \"#{type}\",
+                                  fileBase64: \"#{file_base64}\",
+                                  convertToText: true}}){
+              entity{
+                id
+                content
+              }
+            }
+          }
+        }"
+      end
+
+      it 'calls service to store the data' do
+        expect(Thoughts::Services::Create).to receive(:new).with(params).and_call_original
+        expect_any_instance_of(Thoughts::Services::Create).to receive(:call)
+        subject
+      end
     end
   end
 end
