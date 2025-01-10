@@ -149,6 +149,11 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    graphiql-rails (1.10.1)
+      railties
+    graphql (2.4.8)
+      base64
+      fiber-storage
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.1.0)
@@ -460,6 +465,8 @@ DEPENDENCIES
   debug
   factory_bot_rails
   ffaker
+  graphiql-rails
+  graphql
   importmap-rails
   jbuilder
   kamal
