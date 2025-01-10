@@ -68,6 +68,7 @@ group :test do
   gem 'capybara'
   gem 'karafka-testing'
   gem 'selenium-webdriver'
+  gem 'simplecov', require: false
 end
 
 gem 'awesome_print'
