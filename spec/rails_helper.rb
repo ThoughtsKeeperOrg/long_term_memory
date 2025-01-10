@@ -79,5 +79,5 @@ end
 if ENV['SIMPLECOV']
   require 'simplecov'
   SimpleCov.start 'rails'
-  puts "required simplecov"
+  puts 'required simplecov'
 end
