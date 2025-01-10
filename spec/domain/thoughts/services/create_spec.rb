@@ -6,8 +6,6 @@ RSpec.describe Thoughts::Services::Create, type: :service_object do
   describe '#call' do
     subject(:result) { described_class.new(params).call }
 
-    # context 'when entity is created' do
-
     let(:params) { { thought: { content: 'test' }, file: file_params } }
     let(:file_params) { nil }
     let(:created_thought_mock) { FactoryBot.create(:thought) }
