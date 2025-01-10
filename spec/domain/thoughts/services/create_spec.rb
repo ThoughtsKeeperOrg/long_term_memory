@@ -33,7 +33,6 @@ RSpec.describe Thoughts::Services::Create, type: :service_object do
 
       before do
         allow(Thought).to receive(:create).and_return(created_thought_mock)
-
         allow(created_thought_mock).to receive_message_chain(:errors, :any?).and_return(true)
         allow(created_thought_mock).to receive_message_chain(:errors, :full_messages).and_return(errors)
       end
@@ -68,8 +67,9 @@ RSpec.describe Thoughts::Services::Create, type: :service_object do
       let(:file_processing_errors) { [] }
 
       it 'calls image create service' do
-        expect(Images::Services::Create).to receive(:new)
-                                        .with({ thought: kind_of(Thought), file: file_params })
+        expect(Images::Services::Create)
+          .to receive(:new)
+          .with({ thought: kind_of(Thought), file: file_params })
           .and_return(image_service_double)
         expect(image_service_double).to receive(:call)
         subject
@@ -85,8 +85,9 @@ RSpec.describe Thoughts::Services::Create, type: :service_object do
         let(:file_processing_errors) { ['some error'] }
 
         before do
-          allow(Images::Services::Create).to receive(:new)
-                                         .with({ thought: kind_of(Thought), file: file_params })
+          allow(Images::Services::Create)
+            .to receive(:new)
+            .with({ thought: kind_of(Thought), file: file_params })
             .and_return(image_service_double)
         end
 
