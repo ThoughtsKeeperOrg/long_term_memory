@@ -4,12 +4,7 @@
 class OcrConsumer < ApplicationConsumer
   def consume
     messages.each do |message|
-      # Rails.logger.debug message.payload
-      # if message.payload['status'] == 'scanned'
       process_message(message)
-    # else
-    #   # TODO
-    # end
     rescue StandardError => e
       p '*' * 88
       p 'Message consuption error:'
@@ -22,7 +17,7 @@ class OcrConsumer < ApplicationConsumer
   def process_message(message)
     thought = Image.find(message.key).thought
     thought.content = [thought.content, message.payload['text']].join("\n")
-    thought.save
+    thought.save!
 
     Karafka.producer
            .produce_sync(key: thought.id.to_s,
