@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Example consumer that prints messages payloads
 class OcrConsumer < ApplicationConsumer
   def consume
     messages.each do |message|
