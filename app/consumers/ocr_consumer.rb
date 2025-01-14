@@ -6,7 +6,7 @@ class OcrConsumer < ApplicationConsumer
       process_message(message)
     rescue StandardError => e
       p '*' * 88
-      p 'Message consuption error:'
+      p 'Message consumption error:'
       p e.message
       p e.backtrace.join("\n")
       p '*' * 88
