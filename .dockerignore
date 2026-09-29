@@ -45,3 +45,34 @@
 # Ignore Docker-related files
 /.dockerignore
 /Dockerfile*
+
+# Ignore test and spec files
+/spec
+/test
+/coverage
+.rspec
+.rubocop.yml
+.brakeman.json
+
+# Ignore documentation
+*.md
+!README.md
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Ignore CI/CD and process managers
+docker-compose.yml
+docker-compose.*.yml
+Procfile
+.foreman
+
+# Ignore npm/yarn cache
+yarn-error.log
+npm-debug.log
+*.log

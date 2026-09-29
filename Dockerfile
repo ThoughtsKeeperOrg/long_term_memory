@@ -36,17 +36,26 @@ RUN apt-get update -qq && \
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
+    bundle clean --force && \
+    find "${BUNDLE_PATH}" -type f -name "*.gem" -delete && \
+    find "${BUNDLE_PATH}" -name "*.so" -exec strip {} \; && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
 # Copy application code
 COPY . .
 
+# Remove unnecessary files to reduce layer size
+RUN rm -rf spec/ test/ coverage/ .git log/* tmp/* public/packs-test* storage/* && \
+    find . -name "*.md" -not -name "README.md" -delete && \
+    find . -type d -name ".git*" -exec rm -rf {} + 2>/dev/null || true
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile && \
+    rm -rf tmp/cache/* log/* node_modules/.cache
 
 # Final stage for app image
 FROM base
